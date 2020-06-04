@@ -3,6 +3,8 @@ extends Node
 const NAME = "OGFCS"
 const VERSION = "0.0.0"
 
+const screenshot_dir = "user://screenshots"
+
 var file:File = File.new()
 var dir:Directory = Directory.new()
 
@@ -87,6 +89,8 @@ func start():
 func _input(event):
 	if event.is_action_pressed("fullscreen"):
 		fullscreen(!OS.window_fullscreen)
+	if event.is_action_pressed("screenshot"):
+		screenshot()
 	
 func _process(_delta):
 	
@@ -263,6 +267,26 @@ func restart():
 func fullscreen(value: bool):
 	emit_signal("fullscreen", value)
 	OS.window_fullscreen = value 
+	
+func screenshot(save_path: String = ""):
+	var image = get_viewport().get_texture().get_data()
+	image.flip_y()
+	
+	if save_path == "":
+		save_path = screenshot_dir + "/%s.png" % str(OS.get_unix_time())
+	
+	var dir_path = save_path.split("/")
+	dir_path.remove(dir_path.size() - 1)
+	dir_path = dir_path.join("/")
+	
+	if !dir.dir_exists(dir_path):
+		dir.make_dir_recursive(dir_path)
+	
+	var err = image.save_png(save_path)
+	if err != OK:
+		print_error("Game.gd ERROR: could not save screenshot at path:'%s'. code:'%s'" % [save_path, err])
+	else:
+		print_text("Game.gd: Saved screenshot at path:'%s'.." % save_path)
 	
 func minimize(value: bool):
 	emit_signal("maximize", value)
