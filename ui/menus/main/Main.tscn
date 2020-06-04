@@ -1,0 +1,194 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/menus/main/reset.png" type="Texture" id=2]
+[ext_resource path="res://ui/menus/main/restart.png" type="Texture" id=3]
+[ext_resource path="res://ui/menus/main/Main.gd" type="Script" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+const TEXT = \"Reset..\"
+
+func _on_Reset_mouse_entered():
+	text = TEXT
+
+func _on_Reset_mouse_exited():
+	text = \"\"
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Button
+
+const TEXT = \"Restart\"
+
+func _on_Restart_mouse_entered():
+	text = TEXT
+func _on_Restart_mouse_exited():
+	text = \"\"
+"
+
+[node name="Main menu" type="Control"]
+margin_right = 162.0
+margin_bottom = 126.0
+rect_min_size = Vector2( 92, 126 )
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -1.99999
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Join" type="Button" parent="VBoxContainer"]
+margin_right = 162.0
+margin_bottom = 18.0
+focus_neighbour_bottom = NodePath("../Start")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Join game.."
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 162.0
+margin_bottom = 36.0
+focus_neighbour_top = NodePath("../Join")
+focus_neighbour_bottom = NodePath("../Mods")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Start new game.."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mods" type="Button" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 162.0
+margin_bottom = 54.0
+focus_neighbour_top = NodePath("../Start")
+focus_neighbour_bottom = NodePath("../Console")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Mods & addons.."
+
+[node name="Console" type="Button" parent="VBoxContainer"]
+margin_top = 54.0
+margin_right = 162.0
+margin_bottom = 72.0
+focus_neighbour_top = NodePath("../Mods")
+focus_neighbour_bottom = NodePath("../HBoxContainer/Settings")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Chat/Console"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 72.0
+margin_right = 162.0
+margin_bottom = 90.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="Settings" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 144.0
+margin_bottom = 18.0
+focus_neighbour_top = NodePath("../../Console")
+focus_neighbour_right = NodePath("../Reset")
+focus_neighbour_bottom = NodePath("../../Leave")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Settings"
+
+[node name="Reset" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 144.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 15, 15 )
+focus_neighbour_left = NodePath("../Settings")
+focus_neighbour_top = NodePath("../../Console")
+focus_neighbour_bottom = NodePath("../../Leave")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+icon = ExtResource( 2 )
+script = SubResource( 1 )
+
+[node name="Leave" type="Button" parent="VBoxContainer"]
+margin_top = 90.0
+margin_right = 162.0
+margin_bottom = 108.0
+focus_neighbour_top = NodePath("../HBoxContainer/Settings")
+focus_neighbour_bottom = NodePath("../HBoxContainer2/Exit")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Leave game.."
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 108.0
+margin_right = 162.0
+margin_bottom = 126.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="Exit" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_right = 144.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+focus_neighbour_top = NodePath("../../Leave")
+focus_neighbour_right = NodePath("../Restart")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "Quit"
+
+[node name="Restart" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 144.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+focus_neighbour_left = NodePath("../Exit")
+focus_neighbour_top = NodePath("../../Leave")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+icon = ExtResource( 3 )
+script = SubResource( 2 )
+[connection signal="pressed" from="VBoxContainer/Join" to="." method="_on_Join_pressed"]
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Mods" to="." method="_on_Mods_pressed"]
+[connection signal="pressed" from="VBoxContainer/Console" to="." method="_on_Console_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/HBoxContainer/Reset" to="VBoxContainer/HBoxContainer/Reset" method="_on_Reset_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/HBoxContainer/Reset" to="VBoxContainer/HBoxContainer/Reset" method="_on_Reset_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="VBoxContainer/Leave" to="." method="_on_Leave_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Exit" to="." method="_on_Exit_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/HBoxContainer2/Restart" to="VBoxContainer/HBoxContainer2/Restart" method="_on_Restart_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/HBoxContainer2/Restart" to="VBoxContainer/HBoxContainer2/Restart" method="_on_Restart_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Restart" to="." method="_on_Restart_pressed"]

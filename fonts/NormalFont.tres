@@ -1,0 +1,13 @@
+[gd_resource type="DynamicFont" load_steps=5 format=2]
+
+[ext_resource path="res://fonts/Noto/NotoEmoji-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/px_sans_nouveaux/px_sans_nouveaux.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/Noto/NotoColorEmoji.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/Noto/NotoSans-Regular.ttf" type="DynamicFontData" id=4]
+
+[resource]
+size = 8
+font_data = ExtResource( 2 )
+fallback/0 = ExtResource( 4 )
+fallback/1 = ExtResource( 1 )
+fallback/2 = ExtResource( 3 )

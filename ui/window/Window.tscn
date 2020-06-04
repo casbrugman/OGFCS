@@ -1,0 +1,325 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/window/Window.gd" type="Script" id=3]
+[ext_resource path="res://ui/window/close.png" type="Texture" id=4]
+[ext_resource path="res://ui/window/min.png" type="Texture" id=5]
+[ext_resource path="res://ui/window/max.png" type="Texture" id=6]
+[ext_resource path="res://ui/window/Resizer.gd" type="Script" id=7]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0, 0.0859375, 1, 1, 0, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TextureRect
+
+func _ready():
+	Game.config.connect(\"config_reloaded\", self, \"set_colors\")
+	set_colors()
+	
+func set_colors():
+	texture.gradient.colors[0] = Game.config.get_value(\"ui_window\", \"header_color_0\")
+	texture.gradient.colors[1] = Game.config.get_value(\"ui_window\", \"header_color_1\")
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 1
+
+[sub_resource type="DynamicFont" id=5]
+size = 1
+
+[sub_resource type="DynamicFont" id=6]
+size = 1
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[node name="Window" type="Control"]
+margin_right = 330.0
+margin_bottom = 234.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shadows" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="e" type="ColorRect" parent="Shadows"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 7.0
+margin_right = 6.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="se" type="ColorRect" parent="Shadows"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 6.0
+margin_bottom = 6.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s" type="ColorRect" parent="Shadows"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 7.0
+margin_bottom = 6.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Margin" type="ColorRect" parent="Panel"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = 17.0
+margin_right = -3.0
+margin_bottom = 18.0
+theme = ExtResource( 1 )
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="TextureRect" parent="Panel"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = -3.0
+margin_bottom = 17.0
+theme = ExtResource( 1 )
+texture = SubResource( 2 )
+expand = true
+script = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel/Header"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.0
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Header"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -42.0
+margin_top = 1.0
+margin_right = -1.0
+margin_bottom = 14.0
+rect_clip_content = true
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_constants/separation = 1
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Min" type="Button" parent="Panel/Header/Buttons"]
+visible = false
+margin_right = 13.0
+margin_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 13, 13 )
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 4 )
+icon = ExtResource( 5 )
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Max" type="Button" parent="Panel/Header/Buttons"]
+visible = false
+margin_left = 14.0
+margin_right = 27.0
+margin_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 13, 13 )
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 5 )
+icon = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Close" type="Button" parent="Panel/Header/Buttons"]
+margin_left = 28.0
+margin_right = 41.0
+margin_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 13, 13 )
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )
+custom_fonts/font = SubResource( 6 )
+icon = ExtResource( 4 )
+
+[node name="Content" type="PanelContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 18.0
+margin_right = -3.0
+margin_bottom = -3.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resizers" type="Control" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="w" type="Control" parent="Panel/Resizers"]
+anchor_bottom = 1.0
+margin_left = -1.0
+margin_top = 2.0
+margin_right = 2.0
+margin_bottom = -3.0
+mouse_default_cursor_shape = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s" type="Control" parent="Panel/Resizers"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = -3.0
+margin_right = -3.0
+margin_bottom = 1.0
+mouse_default_cursor_shape = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="e" type="Control" parent="Panel/Resizers"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -3.0
+margin_top = 2.0
+margin_right = 1.0
+margin_bottom = -3.0
+mouse_default_cursor_shape = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="n" type="Control" parent="Panel/Resizers"]
+anchor_right = 1.0
+margin_left = 2.0
+margin_top = -1.0
+margin_right = -3.0
+margin_bottom = 2.0
+mouse_default_cursor_shape = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="nw" type="Control" parent="Panel/Resizers"]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 2.0
+margin_bottom = 2.0
+mouse_default_cursor_shape = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sw" type="Control" parent="Panel/Resizers"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = -1.0
+margin_top = -3.0
+margin_right = 2.0
+margin_bottom = 1.0
+mouse_default_cursor_shape = 11
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="se" type="Control" parent="Panel/Resizers"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -3.0
+margin_top = -3.0
+margin_right = 1.0
+margin_bottom = 1.0
+mouse_default_cursor_shape = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ne" type="Control" parent="Panel/Resizers"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -3.0
+margin_top = -1.0
+margin_right = 1.0
+margin_bottom = 2.0
+mouse_default_cursor_shape = 11
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="Panel/Header" to="." method="_on_Header_gui_input"]
+[connection signal="pressed" from="Panel/Header/Buttons/Min" to="." method="_on_Min_pressed"]
+[connection signal="pressed" from="Panel/Header/Buttons/Max" to="." method="_on_Max_pressed"]
+[connection signal="pressed" from="Panel/Header/Buttons/Close" to="." method="_on_Close_pressed"]
+[connection signal="gui_input" from="Panel/Resizers/w" to="Panel/Resizers" method="_on_w_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/s" to="Panel/Resizers" method="_on_s_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/e" to="Panel/Resizers" method="_on_e_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/n" to="Panel/Resizers" method="_on_n_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/nw" to="Panel/Resizers" method="_on_nw_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/sw" to="Panel/Resizers" method="_on_sw_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/se" to="Panel/Resizers" method="_on_se_gui_input"]
+[connection signal="gui_input" from="Panel/Resizers/ne" to="Panel/Resizers" method="_on_ne_gui_input"]

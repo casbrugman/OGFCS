@@ -1,0 +1,13 @@
+[gd_resource type="DynamicFont" load_steps=5 format=2]
+
+[ext_resource path="res://fonts/pcsenior.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/NotoEmoji-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/NotoColorEmoji.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=4]
+
+[resource]
+size = 8
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 4 )
+fallback/1 = ExtResource( 2 )
+fallback/2 = ExtResource( 3 )

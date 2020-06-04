@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/window/warning32.png" type="Texture" id=10]
+[ext_resource path="res://ui/window/WindowConfirm.gd" type="Script" id=11]
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="Confirm" type="PanelContainer"]
+margin_right = 229.0
+margin_bottom = 58.0
+theme = ExtResource( 13 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 229.0
+margin_bottom = 58.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 229.0
+margin_bottom = 58.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 229.0
+margin_bottom = 32.0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 36.0
+margin_right = 229.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -3
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 229.0
+margin_bottom = 54.0
+custom_constants/separation = 12
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2"]
+margin_right = 46.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+
+[node name="Confirm" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 58.0
+margin_right = 108.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 50, 0 )
+mouse_default_cursor_shape = 2
+text = "YES"
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 120.0
+margin_right = 170.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 50, 0 )
+mouse_default_cursor_shape = 2
+text = "Cancel"
+
+[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 182.0
+margin_right = 229.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 58.0
+margin_right = 229.0
+margin_bottom = 58.0
+custom_constants/separation = 12
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Confirm" to="." method="_on_Confirm_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Button2" to="." method="_on_Button_pressed"]

@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/menus/text_edit/TextEdit.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+content_margin_left = 3.0
+content_margin_right = 3.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[node name="Text Edit" type="PanelContainer"]
+margin_right = 569.0
+margin_bottom = 314.0
+rect_min_size = Vector2( 202, 28 )
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 569.0
+margin_bottom = 314.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 569.0
+margin_bottom = 24.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/PanelContainer"]
+margin_right = 569.0
+margin_bottom = 24.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/PanelContainer"]
+margin_right = 569.0
+margin_bottom = 24.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/PanelContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 566.0
+margin_bottom = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer"]
+margin_right = 563.0
+margin_bottom = 18.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_top = 1.0
+margin_right = 46.0
+margin_bottom = 16.0
+text = "File name"
+
+[node name="Control" type="Control" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 46.0
+margin_right = 529.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 20, 0 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 529.0
+margin_right = 563.0
+margin_bottom = 18.0
+text = " Save "
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 569.0
+margin_bottom = 314.0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 4 )
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/PanelContainer2"]
+margin_right = 569.0
+margin_bottom = 290.0
+[connection signal="pressed" from="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]

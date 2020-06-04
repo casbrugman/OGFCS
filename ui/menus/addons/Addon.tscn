@@ -1,0 +1,256 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/menus/addons/folder.png" type="Texture" id=2]
+[ext_resource path="res://ui/menus/addons/downloads.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends WindowContent
+
+var dir = Directory.new()
+
+var addons = []
+
+var addonButton = preload(\"res://ui/menus/addons/AddonButton.tscn\")
+
+func _ready():
+	window.func_close = funcref(self, \"close\")
+	
+	refresh_addons()
+	
+func refresh_addons():
+	addons = Game.addons.get_addons()
+	
+	for child in $VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.get_children():
+		$VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.remove_child(child)
+
+	for addon in addons:
+		var button = addonButton.instance()
+		button.set_addon(addon, addons[addon])
+		button.connect(\"check\", self, \"addon_checked\")
+		$VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.add_child(button)
+		
+		addons[addon][\"ORIGINAL_STATUS\"] = addons[addon][\"ENABLED\"]
+		
+func addon_checked(path, value):
+	addons[path][\"ENABLED\"] = value
+	if addons[path][\"ORIGINAL_STATUS\"] == value:
+		var any_change = false
+		for addon in addons:
+			if !addons[addon][\"ORIGINAL_STATUS\"] == addons[addon][\"ENABLED\"]:
+				any_change = true
+		if !any_change:
+			$VBoxContainer/HBoxContainer/Button4.disabled = true
+		else:
+			$VBoxContainer/HBoxContainer/Button4.disabled = false
+	else:
+		$VBoxContainer/HBoxContainer/Button4.disabled = false
+	
+
+func _on_Button2_pressed():
+	OS.shell_open(OS.get_user_data_dir() + \"/\" + Game.addons.addon_folder.split(\"//\")[1])
+
+func _on_Button4_pressed():
+	var confirm = yield(Game.ui.windows.confirm(\"Applying will restart the game.\"), \"completed\")
+	confirm.connect(\"confirm\", self, \"apply\")
+	
+func apply():
+	Game.addons.save_addons_configuration(addons)
+	Game.restart()
+	
+func _on_Button3_pressed():
+	var changed = false 
+	
+	for addon in addons:
+		if addon[\"ENABLED\"] != addon[\"ORIGINAL_STATUS\"]:
+			changed = true
+	
+	if changed:
+		var confirm = Game.ui.windows.confirm(\"This will undo any made changes.\")
+		confirm.connect(\"confirm\", self, \"refresh_addons\")
+	else:
+		refresh_addons()
+	
+func close():
+	window.queue_free()
+
+func _on_Button5_pressed():
+	OS.shell_open(OS.get_user_data_dir() + \"/\" + Game.addons.downloads_folder.split(\"//\")[1])
+
+func _on_Button6_pressed():
+	Game.ui.windows.create_window(Game.ui.prefabs.menu_explore)
+"
+
+[node name="Mods & addons" type="Control"]
+margin_right = 519.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 519, 46 )
+rect_clip_content = true
+theme = ExtResource( 1 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 1.0
+margin_right = -2.0
+margin_bottom = -3.0
+custom_constants/separation = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 515.0
+margin_bottom = 15.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
+margin_right = 125.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "Resource Pack:"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 129.0
+margin_right = 254.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "Hash [0-20]:"
+
+[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 258.0
+margin_right = 383.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "Size (bytes):"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 387.0
+margin_right = 515.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_right = 83.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
+margin_left = 87.0
+margin_right = 128.0
+margin_bottom = 15.0
+text = "Enabled:"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 515.0
+margin_bottom = 196.0
+size_flags_vertical = 3
+
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/PanelContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 514.0
+margin_bottom = 177.0
+color = Color( 0.6, 0.6, 0.6, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 514.0
+margin_bottom = 177.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/ScrollContainer"]
+margin_right = 513.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 199.0
+margin_right = 515.0
+margin_bottom = 218.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 160.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+text = "Open Resource Pack Folder"
+icon = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button5" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 164.0
+margin_right = 278.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+text = "Downloaded packs"
+icon = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 282.0
+margin_right = 330.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+text = "Refresh.."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button6" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 334.0
+margin_right = 428.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+text = "Explore game files"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+margin_left = 432.0
+margin_right = 480.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+
+[node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 484.0
+margin_right = 515.0
+margin_bottom = 19.0
+mouse_default_cursor_shape = 2
+disabled = true
+text = "Apply"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button6" to="." method="_on_Button6_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button4" to="." method="_on_Button4_pressed"]

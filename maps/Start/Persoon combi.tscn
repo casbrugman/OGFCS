@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://maps/Start/persoon.obj" type="ArrayMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_disable_ambient_light = true
+metallic = 0.5
+roughness = 0.43
+
+[node name="Persoon combi" type="Spatial"]
+
+[node name="persoon" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1278, 0 )
+material_override = SubResource( 1 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 0.0815875, -0.0380896, 0.0435047, -0.0172403, 0.0557917, 0.0811792, -0.0551928, -0.0737324, 0.0389523, 0.413494, 0.510278, 0.39 )
+light_energy = 2.46
+light_specular = 0.82
+spot_range = 2.41948
+spot_attenuation = 0.435275
+
+[node name="SpotLight2" type="SpotLight" parent="."]
+transform = Transform( -0.0538564, 0.0430268, -0.0724444, -0.0217686, 0.0759545, 0.0612947, 0.0813979, 0.0487812, -0.03154, -0.440383, 0.372879, -0.46803 )
+light_energy = 2.46
+light_specular = 0.82
+spot_range = 2.49698
+spot_attenuation = 0.435275

@@ -1,0 +1,94 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://maps/Start/retro.glb" type="PackedScene" id=1]
+[ext_resource path="res://maps/Start/Persoon combi.tscn" type="PackedScene" id=2]
+[ext_resource path="res://maps/Start/retro env.tres" type="Environment" id=3]
+[ext_resource path="res://maps/Start/sky.shader" type="Shader" id=6]
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Node
+
+func _ready():
+	if OS.get_date()[\"day\"] == 1 && OS.get_date()[\"month\"] == 4:
+		$Origin/Camera.rotate_z(PI)
+		$Origin/Camera.rotation.x = -$Origin/Camera.rotation.x
+"
+
+[sub_resource type="SphereMesh" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 6 )
+shader_param/seed = 0
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends MeshInstance
+
+func _ready():
+	var random = RandomNumberGenerator.new()
+	random.randomize()
+	var value = random.randi_range(0, 900000)
+	get(\"material/0\").set_shader_param(\"seed\", value)
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Spatial
+
+const SPEED = .11
+
+func _process(delta):
+	rotate_y(SPEED * delta)
+"
+
+[node name="Start" type="Node"]
+script = SubResource( 5 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="Persoon combi" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14054, 0 )
+
+[node name="Sky" type="MeshInstance" parent="."]
+transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+script = SubResource( 3 )
+
+[node name="Origin" type="Spatial" parent="."]
+pause_mode = 2
+transform = Transform( -1.62921e-06, 0, -10, 0, 10, 0, 10, 0, -1.62921e-06, 0, 0, 0 )
+script = SubResource( 4 )
+
+[node name="Camera" type="Camera" parent="Origin"]
+transform = Transform( 0.1, -4.44089e-16, 1.77636e-15, 0, 0.0951498, 0.0307655, -1.77636e-15, -0.0307655, 0.0951498, 8.52651e-14, 0.25, 0.754 )
+doppler_tracking = 2
+current = true
+near = 0.01
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="retro" parent="." instance=ExtResource( 1 )]
+
+[node name="Sphere" parent="retro" index="1"]
+transform = Transform( 2.43077, 0, 0, 0, 2.43077, 0, 0, 0, 2.43077, 0, 12.1975, -48.744 )
+
+[node name="OmniLight" type="OmniLight" parent="retro/Sphere" index="0"]
+light_color = Color( 1, 0.862745, 0.45098, 1 )
+omni_range = 13.4325
+
+[node name="Cube003" parent="retro" index="7"]
+transform = Transform( 2.11048, 0, -2.0554, 0, 4.86773, 0, 2.04342, 0, 2.12285, -59.2829, 5.69107, -31.756 )
+
+[node name="Cube020" parent="retro" index="13"]
+transform = Transform( -2.57638, 0, -0.485115, 0, 10.5236, 0, 0.492459, 0, -2.53796, 34.131, 12.0562, 60.0595 )
+
+[node name="Cube016" parent="retro" index="19"]
+transform = Transform( -2.8854, 0, -0.55476, 0, 4.86773, 0, 0.551526, 0, -2.90231, 37.1606, 5.75616, 39.4038 )
+
+[node name="Cube013" parent="retro" index="22"]
+transform = Transform( -2.17938, 0, -0.410363, 0, 6.11894, 0, 0.416575, 0, -2.14688, 26.7771, 10.1585, 60.1326 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+
+[editable path="retro"]

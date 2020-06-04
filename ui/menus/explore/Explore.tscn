@@ -1,0 +1,108 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/menus/explore/Tree.gd" type="Script" id=2]
+[ext_resource path="res://ui/menus/explore/Explore.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+content_margin_left = 3.0
+content_margin_right = 3.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+
+[node name="Explore" type="Control"]
+margin_right = 264.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 202, 28 )
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 264.0
+margin_bottom = 24.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/PanelContainer"]
+margin_right = 264.0
+margin_bottom = 24.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/PanelContainer"]
+margin_right = 264.0
+margin_bottom = 24.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/PanelContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 261.0
+margin_bottom = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer"]
+margin_right = 258.0
+margin_bottom = 18.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_top = 1.0
+margin_right = 90.0
+margin_bottom = 16.0
+text = "Show hidden files:"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 90.0
+margin_right = 106.0
+margin_bottom = 18.0
+
+[node name="Control" type="Control" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 106.0
+margin_right = 169.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 169.0
+margin_right = 258.0
+margin_bottom = 18.0
+text = "Open save folder"
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 264.0
+margin_bottom = 202.0
+size_flags_vertical = 3
+
+[node name="Tree" type="Tree" parent="VBoxContainer/PanelContainer2"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 263.0
+margin_bottom = 177.0
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer/CheckBox" to="." method="_on_CheckBox_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]

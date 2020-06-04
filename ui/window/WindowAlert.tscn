@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/window/warning32.png" type="Texture" id=10]
+[ext_resource path="res://ui/window/WindowAlert.gd" type="Script" id=11]
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=12]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="Alert" type="PanelContainer"]
+margin_right = 229.0
+margin_bottom = 58.0
+theme = ExtResource( 12 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 229.0
+margin_bottom = 58.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+margin_right = 229.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+margin_right = 229.0
+margin_bottom = 32.0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="VBoxContainer2/HBoxContainer"]
+margin_left = 36.0
+margin_right = 229.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -3
+align = 1
+valign = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 36.0
+margin_right = 229.0
+margin_bottom = 54.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer2/HBoxContainer2"]
+margin_right = 85.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="VBoxContainer2/HBoxContainer2"]
+margin_left = 89.0
+margin_right = 139.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 50, 0 )
+mouse_default_cursor_shape = 2
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control2" type="Control" parent="VBoxContainer2/HBoxContainer2"]
+margin_left = 143.0
+margin_right = 229.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
+margin_top = 58.0
+margin_right = 229.0
+margin_bottom = 58.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer2/Button" to="." method="_on_Button_pressed"]

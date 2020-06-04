@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://modes/explore/UI.gd" type="Script" id=1]
+[ext_resource path="res://ui/window/WindowContainer.gd" type="Script" id=2]
+[ext_resource path="res://modes/explore/editor/Editor.gd" type="Script" id=3]
+[ext_resource path="res://modes/explore/gizmos/translate/Translate.tscn" type="PackedScene" id=4]
+[ext_resource path="res://modes/explore/viewer/viewer.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "intro"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Viewer:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 50, -0.25, 0, 0.25, 0, 2.5, -1.5, 0, 1.5, 0 ),
+"times": PoolRealArray( 0, 2 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Viewer:translation:z")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 100, -0.25, 0, 0.25, 0, 5, -1.5, 0, 1.5, 0 ),
+"times": PoolRealArray( 0, 2 )
+}
+
+[node name="Editor" type="Node"]
+pause_mode = 2
+script = ExtResource( 3 )
+
+[node name="Map" type="Node" parent="."]
+pause_mode = 1
+
+[node name="Viewer" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 100 )
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Windows" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gizmos" type="Node" parent="."]
+
+[node name="Translate" parent="Gizmos" instance=ExtResource( 4 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_priority = 1
+autoplay = "intro"
+anims/intro = SubResource( 1 )

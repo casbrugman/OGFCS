@@ -1,0 +1,361 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/menus/join/connection_question.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends WindowContent
+
+var servers = []
+var buttons = []
+
+var serverButton = preload(\"res://ui/menus/join/ServerButton.tscn\")
+
+func _ready():
+	servers = Game.config.get_value(\"menu_join\", \"saved\")
+	
+	$VBoxContainer/HBoxContainer/LineEdit3.text = str(Game.config.get_value(\"server\", \"default_ping_listen_port\"))
+	
+	get_servers()
+
+func _on_Button3_pressed():
+	servers.append({\"NAME\": $VBoxContainer/HBoxContainer/LineEdit.text,
+	\"IP\": $VBoxContainer/HBoxContainer/LineEdit2.text,
+	\"PORT\": int($VBoxContainer/HBoxContainer/LineEdit3/.text)})
+	$VBoxContainer/HBoxContainer/LineEdit.clear()
+	$VBoxContainer/HBoxContainer/LineEdit2.clear()
+	$VBoxContainer/HBoxContainer/LineEdit3.clear()
+	get_servers()
+	Game.config.set_value(\"menu_join\", \"saved\", servers)
+	
+func get_servers():
+	buttons.clear()
+	for child in $VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.get_children():
+		$VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.remove_child(child)
+		
+	var i = 0
+	for server in servers:
+		var button = serverButton.instance()
+		
+		$VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer.add_child(button)
+		button.set_server(i, server[\"NAME\"], server[\"IP\"], server[\"PORT\"])
+		button.connect(\"remove\", self, \"remove_server\")
+		button.connect(\"select\", self, \"select_server\")
+		
+		buttons.append(button)
+		i += 1
+		
+func remove_server(position):
+	servers.remove(position)
+	Game.config.set_value(\"menu_join\", \"saved\", servers)
+	get_servers()
+	
+func refresh_servers():
+	for button in buttons:
+		button.ping()
+	
+func select_server(position):
+	$VBoxContainer/HBoxContainer/LineEdit.text = servers[position][\"NAME\"]
+	$VBoxContainer/HBoxContainer/LineEdit2.text = servers[position][\"IP\"]
+	$VBoxContainer/HBoxContainer/LineEdit3.text = str(servers[position][\"PORT\"])
+	
+	if $VBoxContainer/HBoxContainer/LineEdit2.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit3.text != \"\":
+		$VBoxContainer/HBoxContainer2/Button2.disabled = false
+	else:
+		$VBoxContainer/HBoxContainer2/Button2.disabled = true
+	
+	if $VBoxContainer/HBoxContainer/LineEdit.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit2.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit3.text != \"\":
+		$VBoxContainer/HBoxContainer/Button3.disabled = false
+	else:
+		$VBoxContainer/HBoxContainer/Button3.disabled = true
+	
+
+func _on_Button4_pressed():
+	$VBoxContainer/HBoxContainer/LineEdit.clear()
+	$VBoxContainer/HBoxContainer/LineEdit2.clear()
+	$VBoxContainer/HBoxContainer/LineEdit.clear()
+
+func _on_Button2_pressed():
+	var ip = $VBoxContainer/HBoxContainer/LineEdit2.text
+	var port = $VBoxContainer/HBoxContainer/LineEdit3.text
+	
+	$VBoxContainer/HBoxContainer2/Button2.disabled = true
+	$VBoxContainer/HBoxContainer2/Button2.text = \"Connecting...\"
+	
+	var err = yield(Game.join_game(ip, int(port)),\"completed\")
+	if err == OK:
+		window.queue_free()
+	else:
+		$VBoxContainer/HBoxContainer2/Button2.disabled = false
+	
+func _on_Button_pressed():
+	refresh_servers()
+
+func _on_text_changed(_new_text):
+	if $VBoxContainer/HBoxContainer/LineEdit2.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit3.text != \"\":
+		$VBoxContainer/HBoxContainer2/Button2.disabled = false
+	else:
+		$VBoxContainer/HBoxContainer2/Button2.disabled = true
+		
+	if $VBoxContainer/HBoxContainer/LineEdit.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit2.text != \"\" && $VBoxContainer/HBoxContainer/LineEdit3.text != \"\":
+		$VBoxContainer/HBoxContainer/Button3.disabled = false
+	else:
+		$VBoxContainer/HBoxContainer/Button3.disabled = true
+
+func _on_Join_game_resized():
+	print(\"resizeoui\")
+	
+func get_node(nodePath):
+	return .get_node(nodePath)
+"
+
+[node name="Join game" type="Control"]
+margin_right = 391.0
+margin_bottom = 203.0
+rect_min_size = Vector2( 279, 68 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.737255, 0.737255, 0.737255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = -2.0
+margin_bottom = -2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 387.0
+margin_bottom = 16.0
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer3"]
+margin_right = 3.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 3, 0 )
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 3.0
+margin_right = 19.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 15, 0 )
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 19.0
+margin_right = 127.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "Name:"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 127.0
+margin_right = 133.0
+margin_bottom = 16.0
+custom_constants/separation = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 133.0
+margin_right = 241.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "IP address:"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 241.0
+margin_right = 247.0
+margin_bottom = 16.0
+custom_constants/separation = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 247.0
+margin_right = 355.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+text = "Port:"
+
+[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 355.0
+margin_right = 385.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 30, 0 )
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 20.0
+margin_right = 387.0
+margin_bottom = 157.0
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/PanelContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 386.0
+margin_bottom = 136.0
+color = Color( 0.6, 0.6, 0.6, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 386.0
+margin_bottom = 136.0
+theme = ExtResource( 1 )
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/ScrollContainer"]
+margin_right = 385.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 161.0
+margin_right = 387.0
+margin_bottom = 179.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 35.0
+margin_bottom = 18.0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )
+text = " Clear "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 39.0
+margin_right = 169.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+placeholder_text = "name.. (optional)"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 173.0
+margin_right = 303.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+placeholder_text = "IP address.."
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit3" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 307.0
+margin_right = 347.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 40, 0 )
+theme = ExtResource( 1 )
+placeholder_text = "Port.."
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 351.0
+margin_right = 386.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 35, 0 )
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )
+disabled = true
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 183.0
+margin_right = 387.0
+margin_bottom = 201.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer2"]
+margin_right = 93.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 97.0
+margin_right = 190.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 194.0
+margin_right = 287.0
+margin_bottom = 18.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Refresh"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 291.0
+margin_right = 387.0
+margin_bottom = 18.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+disabled = true
+text = "Connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button4" to="." method="_on_Button4_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/LineEdit2" to="." method="_on_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/LineEdit3" to="." method="_on_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Button2" to="." method="_on_Button2_pressed"]
