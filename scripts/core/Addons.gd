@@ -18,16 +18,16 @@ func check_dir(path: String):
 	var dir = Directory.new()
 	
 	if !dir.dir_exists(path):
-		Game.print_alert("Addons.gd ALERT: no %s directory, creating one.." % path)
+		Game.print_alert("Addons.gd ALERT: No %s directory, creating one.." % path)
 		var err = dir.make_dir(path)
 		if err != OK:
-			Game.print_error("Addons.gd ERROR: could not create directory! code:'%s'" % err)
+			Game.print_error("Addons.gd ERROR: Could not create directory! code:'%s'" % err)
 			return err
 		
 func save_addons_configuration(addons: Dictionary) -> int:
 	var err = Game.config.set_value("addons", "saved", addons)
 	if err != OK:
-		Game.print_error("Addons.gd ERROR: could not save addon configuration. code:'%s'" % err)
+		Game.print_error("Addons.gd ERROR: Could not save addon configuration. code:'%s'" % err)
 		return err
 	return err
 		
@@ -45,13 +45,13 @@ func get_addons_folder(folder_path: String):
 	
 	var err = dir.open(folder_path)
 	if err != OK:
-		Game.print_error("Addons.gd ERROR: could not open folder: '%s'. code:'%s'" % [folder_path, err])
+		Game.print_error("Addons.gd ERROR: Could not open folder: '%s'. code:'%s'" % [folder_path, err])
 		return addons
 		
 	err = dir.list_dir_begin()
 	
 	if err != OK:
-		Game.print_error("Addons.gd ERROR: could not list folder: '%s'. code:'%s'" % [folder_path, err])
+		Game.print_error("Addons.gd ERROR: Could not list folder: '%s'. code:'%s'" % [folder_path, err])
 		return addons
 	
 	var currentDir: String = dir.get_next()
@@ -99,7 +99,7 @@ func is_enabled(path: String) -> bool:
 			if file.get_sha256(path) == config["HASH"]:
 				return true
 			else:
-				Game.print_alert("Addons.gd ALERT: file:'%s' has changed and is automatically disabled for security reasons." % path)
+				Game.print_alert("Addons.gd ALERT: File:'%s' has changed and is automatically disabled for security reasons." % path)
 				config["ENABLED"] = false
 				addons[path] = config
 				Game.config.set_value("addons", "saved", addons)
@@ -114,9 +114,9 @@ func load_addons(addons: Dictionary):
 
 		if success:
 			if addon.has("NAME"):
-				Game.print_text("Addons.gd: loaded addon:'%s'" % addon["NAME"])
+				Game.print_text("Addons.gd: Loaded addon:'%s'" % addon["NAME"])
 		else:
-			Game.print_error("Addons.gd ERROR: failed loading addon with path:'%s'" % addon["PATH"])
+			Game.print_error("Addons.gd ERROR: Failed loading addon with path:'%s'" % addon["PATH"])
 
 func check_addons(addons: Dictionary) -> Dictionary:
 	var own_addons = get_addons()
@@ -160,7 +160,7 @@ func download_addons(ip: String, port: int, addons: Dictionary) -> int:
 		
 		var err = yield(Game.downloader.save_file(ip, port, addon["PATH"], save_path), "completed")
 		if err != OK:
-			Game.print_alert("Addons.gd: ALERT: could not download addon")
+			Game.print_alert("Addons.gd: ALERT: Could not download addon")
 			return null
 			
 		addon["PATH"] = save_path
@@ -190,12 +190,12 @@ func find_pattern_in_folder(patterns: Array, path: String = "res://") -> Array:
 	
 	var err = dir.open(path)
 	if err != OK:
-		Game.print_error("Addons.gd ERROR: could not open folder: '%s'. code:'%s'" % [path, err])
+		Game.print_error("Addons.gd ERROR: Could not open folder: '%s'. code:'%s'" % [path, err])
 		return err
 		
 	err = dir.list_dir_begin(true, true)
 	if err != OK:
-		Game.print_error("Addons.gd ERROR: could not list folder: '%s'. code:'%s'" % [addon_folder, err])
+		Game.print_error("Addons.gd ERROR: Could not list folder: '%s'. code:'%s'" % [addon_folder, err])
 		return err
 		
 	var current_dir: String = dir.get_next()

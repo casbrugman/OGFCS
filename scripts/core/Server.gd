@@ -44,7 +44,7 @@ func start_server() -> int:
 		
 		var err = peer.create_server(port, max_players)
 		if err != OK:
-			Game.print_error("Server.gd ERROR: could not create server on port:'%s'. code:'%s'" % [port, err])
+			Game.print_error("Server.gd ERROR: Could not create server on port:'%s'. code:'%s'" % [port, err])
 			peer = null
 			return err
 		
@@ -54,7 +54,7 @@ func start_server() -> int:
 		
 		var err = peer.listen(port, PoolStringArray(), true)
 		if err != OK:
-			Game.print_error("Server.gd ERROR: could not create server on port:'%s'. code:'%s'" % [port, err])
+			Game.print_error("Server.gd ERROR: Could not create server on port:'%s'. code:'%s'" % [port, err])
 			peer = null
 			return err
 

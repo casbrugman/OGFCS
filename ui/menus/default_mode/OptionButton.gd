@@ -11,7 +11,7 @@ func refresh():
 	paths = get_node("../../../").mode.get_maps()
 	
 	if paths is int:
-		Game.print_error("Menu Start ERROR: could not get gamemodes! code:%s" % paths)
+		Game.print_error("Menu Start ERROR: Could not get gamemodes! code:%s" % paths)
 		return
 	
 	for i in paths:

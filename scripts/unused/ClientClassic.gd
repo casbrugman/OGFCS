@@ -39,7 +39,7 @@ func start_client(ip: String, port: int) -> int:
 		
 	var err = peer.create_client(ip, port)
 	if err != OK:
-		Game.print_error("Client.gd ERROR: could not create client to connect to ip:'%s' and port:'%s'! code:'%s'" % [ip, port, err])
+		Game.print_error("Client.gd ERROR: Could not create client to connect to ip:'%s' and port:'%s'! code:'%s'" % [ip, port, err])
 		return err
 		
 	connection_status = CONNECTION_CONNECTING
@@ -76,7 +76,7 @@ func _connected_ok():
 	Game.server.rpc("receive_player_info", get_tree().get_network_unique_id(), Game.server.connected_players[id])
 	
 func _connected_fail():
-	Game.print_error("Client.gd ERROR: could not connect to rpc server!")
+	Game.print_error("Client.gd ERROR: Could not connect to rpc server!")
 	connection_status = CONNECTION_DISCONNECTED
 	
 func _server_disconnected():

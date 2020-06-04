@@ -18,7 +18,7 @@ func get_maps():
 func init_mode(options: Dictionary) -> int:
 	var err = load_map(options["MAP"])
 	if err != OK:
-		Game.print_error("Mode.gd ERROR: could not init mode with options: %s!" % options)
+		Game.print_error("Mode.gd ERROR: Could not init mode with options: %s!" % options)
 		
 	return err
 	
@@ -30,7 +30,7 @@ func load_map(path: String) -> int:
 	if dir.dir_exists(path):
 		if !ResourceLoader.exists("%sMap.tscn" % path, "PackedScene"):
 			if !ResourceLoader.exists("%sMap.scn" % path, "PackedScene"):
-				Game.print_error("Mode.gd ERROR: could not load map, no map file found: no file named Map.tscn/scn found in folder: '%s'!" % path)
+				Game.print_error("Mode.gd ERROR: Could not load map, no map file found: no file named Map.tscn/scn found in folder: '%s'!" % path)
 				return ERR_FILE_CANT_OPEN
 			else:
 				map_path = "%sMap.scn" % path
@@ -40,7 +40,7 @@ func load_map(path: String) -> int:
 		if ResourceLoader.exists(path):
 			map_path = path
 		else:
-			Game.print_error("Mode.gd ERROR: could not load map, folder or file: '%s' doesnt exist!" % path)
+			Game.print_error("Mode.gd ERROR: Could not load map, folder or file: '%s' doesnt exist!" % path)
 			return ERR_FILE_CANT_OPEN
 	
 	map = load(map_path).instance()

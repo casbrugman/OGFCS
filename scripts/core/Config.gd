@@ -36,8 +36,8 @@ func get_config():
 	var err = config.load(PATH)
 	if err != OK:
 		if file.file_exists(PATH):
-			Game.print_error("Config.gd ERROR: could not load config in '%s'.. code:'%s'" % [PATH, err])
-			Game.print_alert("Config.gd ALERT: please delete file: '%s' to reset config.." % (OS.get_user_data_dir() + "/" + PATH.split("//")[1]))
+			Game.print_error("Config.gd ERROR: Could not load config in '%s'.. code:'%s'" % [PATH, err])
+			Game.print_alert("Config.gd ALERT: Please delete file: '%s' to reset config.." % (OS.get_user_data_dir() + "/" + PATH.split("//")[1]))
 			config = null
 			return err
 		else:
@@ -48,7 +48,7 @@ func get_config():
 				return err
 			config.load(PATH)
 			reset_values()
-			Game.print_text("Config.gd: created new config in '%s'.." % PATH)
+			Game.print_text("Config.gd: Created new config in '%s'.." % PATH)
 			
 	load_time = file.get_modified_time(PATH)
 	values = {}
@@ -81,9 +81,9 @@ func _get_value(section: String, key: String):
 			if dict_section.has(key):
 				return default_values[section][key]
 			else:
-				Game.print_error("Config.gd ERROR: no default value found in section:'%s' with key:'%s'!" % [section, key])
+				Game.print_error("Config.gd ERROR: No default value found in section:'%s' with key:'%s'!" % [section, key])
 		else:
-			Game.print_error("Config.gd ERROR: no default value found in section:'%s' with key:'%s'!" % [section, key])
+			Game.print_error("Config.gd ERROR: No default value found in section:'%s' with key:'%s'!" % [section, key])
 		return null
 		
 	var value = config.get_value(section, key)
@@ -91,26 +91,26 @@ func _get_value(section: String, key: String):
 		if default_values.has(section):
 			var dict_section = default_values[section]
 			if dict_section.has(key):
-				Game.call_deferred("print_alert", "Config.gd ALERT: no value found in section:'%s' with key:'%s', saving default value." % [section, key])
+				Game.call_deferred("print_alert", "Config.gd ALERT: No value found in section:'%s' with key:'%s', saving default value." % [section, key])
 				set_value(section, key, default_values[section][key])
 				return default_values[section][key]
 			else:
-				Game.print_error("Config.gd ALERT: no value found in section:'%s' with key:'%s', and no default found!" % [section, key])
+				Game.print_error("Config.gd ALERT: No value found in section:'%s' with key:'%s', and no default found!" % [section, key])
 		else:
-			Game.print_error("Config.gd ALERT: no value found in section:'%s' with key:'%s', and no default found!" % [section, key])
+			Game.print_error("Config.gd ALERT: No value found in section:'%s' with key:'%s', and no default found!" % [section, key])
 	return value
 
 func set_value(section, key, value) -> int:
 	config.set_value(section, key, value)
 	var err = config.save(PATH)
 	if err != OK:
-		Game.print_error("Config.gd ERROR: could not save config, value not saved. code:'%s'" % err)
+		Game.print_error("Config.gd ERROR: Could not save config, value not saved. code:'%s'" % err)
 	return err
 	
 func reset() -> int:
 	var err = delete_config()
 	if err != OK:
-		Game.print_error("Config.gd ERROR: config not deleted, cant create new one. code:'%s'" % err)
+		Game.print_error("Config.gd ERROR: Config not deleted, cant create new one. code:'%s'" % err)
 		return err
 		
 	reset_values()
@@ -130,11 +130,11 @@ func delete_config() -> int:
 	if file.file_exists(PATH):
 		var err = dir.remove(PATH)
 		if err != OK:
-			Game.print_error("Config.gd ERROR: could not delete config. code:'%s'" % err)
+			Game.print_error("Config.gd ERROR: Could not delete config. code:'%s'" % err)
 			return err
 		return err
 	else:
-		Game.print_alert("Config.gd ALERT: could not delete config, config not found.")
+		Game.print_alert("Config.gd ALERT: Could not delete config, config not found.")
 		return OK
 		
 func ui_scale():
@@ -164,7 +164,7 @@ func get_input_map(reset: bool = false):
 			elif event is InputEventMouseButton:
 				dict["TYPE"] = "MOUSE_BUTTON"
 			else:
-				Game.print_alert("Config.gd ALERT: found unsupported InputEvent in InputMap..")
+				Game.print_alert("Config.gd ALERT: Found unsupported InputEvent in InputMap..")
 				
 			for parameter in input_dict[dict["TYPE"]]:
 				dict[parameter[1]] = event[parameter[0]]
@@ -189,7 +189,7 @@ func set_input_map(dict: Dictionary):
 			elif event["TYPE"] == "MOUSE_BUTTON":
 					new_event = InputEventMouseButton.new()
 			else:
-				Game.print_alert("Config.gd ALERT: found unsupported InputEvent in config..")
+				Game.print_alert("Config.gd ALERT: Found unsupported InputEvent in config..")
 			
 			if input_dict.has(event["TYPE"]):
 				for parameter in input_dict[event["TYPE"]]:

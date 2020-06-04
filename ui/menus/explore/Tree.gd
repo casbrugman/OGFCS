@@ -50,7 +50,7 @@ func _item_activated():
 		if !dir.dir_exists(save_path):
 			var err = dir.make_dir(save_path)
 			if err != OK:
-				Game.print_error("Explore.gd ERROR: could not create directory with path: '%s'. code: '%s'" % [save_path, err])
+				Game.print_error("Explore.gd ERROR: Could not create directory with path: '%s'. code: '%s'" % [save_path, err])
 				return err
 		
 		var err = dir.copy(full_path, save_path + "/" + get_selected().get_text(0))

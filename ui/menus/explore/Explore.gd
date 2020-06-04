@@ -10,7 +10,7 @@ func _ready():
 	if !dir.dir_exists(save_path):
 		var err = dir.make_dir(save_path)
 		if err != OK:
-			Game.print_error("Explore.gd ERROR: could not create directory with path: '%s'. code: '%s'" % [save_path, err])
+			Game.print_error("Explore.gd ERROR: Could not create directory with path: '%s'. code: '%s'" % [save_path, err])
 			return err
 			
 	$VBoxContainer/PanelContainer2/Tree.refresh(!$VBoxContainer/PanelContainer/PanelContainer/VBoxContainer/HBoxContainer/CheckBox.pressed)

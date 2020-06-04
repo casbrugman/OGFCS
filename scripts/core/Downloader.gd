@@ -41,10 +41,10 @@ func save_file(ip: String, port: int, file_path: String, save_path: String, _ove
 		if _override:
 			err = dir.remove(save_path)
 			if err != OK:
-				Game.print_error("Downloader.gd ERROR: could not delete file with path: %s! code: %s" % [save_path, err])
+				Game.print_error("Downloader.gd ERROR: Could not delete file with path: %s! code: %s" % [save_path, err])
 				return err
 		else:
-			Game.print_error("Downloader.gd ERROR: file already exists in path: %s and overriding is set to false!" % save_path)
+			Game.print_error("Downloader.gd ERROR: File already exists in path: %s and overriding is set to false!" % save_path)
 			return ERR_INVALID_PARAMETER
 	
 	
@@ -57,7 +57,7 @@ func save_file(ip: String, port: int, file_path: String, save_path: String, _ove
 	
 	err = file.open(save_path, File.WRITE)
 	if err != OK:
-		Game.print_error("Downloader.gd ERROR: could not create file with path: %s! code: %s" % [save_path, err])
+		Game.print_error("Downloader.gd ERROR: Could not create file with path: %s! code: %s" % [save_path, err])
 		file.close()
 		return err
 		
@@ -70,7 +70,7 @@ func retrieve_file(ip: String, port: int, file_path: String):
 	var file_info = yield(retrieve_file_info(ip, port, file_path), "completed")
 	
 	if file_info == null || file_info is int:
-		Game.print_error("Downloader.gd ERROR: could not request file info!")
+		Game.print_error("Downloader.gd ERROR: Could not request file info!")
 		return FAILED
 		
 	if current_looking_hash != null:
@@ -88,7 +88,7 @@ func retrieve_file(ip: String, port: int, file_path: String):
 		err = yield(err, "completed")
 	
 	if err != OK:
-		Game.print_error("Downloader.gd ERROR: could not send packet to request file!")
+		Game.print_error("Downloader.gd ERROR: Could not send packet to request file!")
 		
 		current_looking_file = null
 		current_looking_size = null
@@ -107,7 +107,7 @@ func retrieve_file(ip: String, port: int, file_path: String):
 	var data
 	
 	if current_file_data == null:
-		Game.print_error("Downloader.gd ERROR: could not retrieve file, timed out.")
+		Game.print_error("Downloader.gd ERROR: Could not retrieve file, timed out.")
 	else:
 		var hasher = HashingContext.new()
 		hasher.start(HashingContext.HASH_SHA256)
@@ -118,7 +118,7 @@ func retrieve_file(ip: String, port: int, file_path: String):
 			data = current_file_data
 			Game.print_text("Downloader.gd: Downloaded file %s.." % file_info["PATH"].split("/")[file_info["PATH"].split("/").size() - 1])
 		else:
-			Game.print_error("Downloader.gd ERROR: retrieving file failed, retrieved file has incorrect checksum.")
+			Game.print_error("Downloader.gd ERROR: Retrieving file failed, retrieved file has incorrect checksum.")
 	
 	current_looking_file = null
 	current_looking_size = null
@@ -143,7 +143,7 @@ func retrieve_file_info(ip: String, port: int, file_path: String):
 		err = yield(err, "completed")
 		
 	if err != OK:
-		Game.print_error("Downloader.gd ERROR: could not send packet to request file info. code:%s" % err)
+		Game.print_error("Downloader.gd ERROR: Could not send packet to request file info. code:%s" % err)
 		return err
 	
 	var timer = 0
@@ -164,7 +164,7 @@ func retrieve_file_info(ip: String, port: int, file_path: String):
 func send_file(ip: String, port: int, file_path: String) -> int:
 	var err = file.open(file_path, File.READ)
 	if err != OK:
-		Game.print_error("Downloader.gd ERROR: could not open requested file with path: %s! code: %s" % [file_path % err])
+		Game.print_error("Downloader.gd ERROR: Could not open requested file with path: %s! code: %s" % [file_path % err])
 		file.close()
 		return err
 		
@@ -197,7 +197,7 @@ func send_file(ip: String, port: int, file_path: String) -> int:
 			err = yield(err, "completed")
 		
 		if err != OK:
-			Game.print_error("Downloader.gd ERROR: could not send file data! code: %s" % err)
+			Game.print_error("Downloader.gd ERROR: Could not send file data! code: %s" % err)
 			return err
 			
 		pointer_begin += MAX_PACKET_SIZE
@@ -218,7 +218,7 @@ func _packet_handler(packet):
 				
 				var err = file.open(packet["CONTENT"], File.READ)
 				if err != OK:
-					Game.print_error("Downloader.gd ERROR: could not open requested file with path: %s" % packet["CONTENT"])
+					Game.print_error("Downloader.gd ERROR: Could not open requested file with path: %s" % packet["CONTENT"])
 					return
 					
 				var file_info = {

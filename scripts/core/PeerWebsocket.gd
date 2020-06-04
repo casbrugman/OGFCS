@@ -87,9 +87,9 @@ func listen(_port: int = port, _ip: String = ip) -> int:
 
 	var err = server.listen(port)
 	if err != OK:
-		Game.print_error("Peer.gd ERROR: could not listen on port:'%s' and ip:'%s'. code:'%s'.." % [port, ip, err])
+		Game.print_error("Peer.gd ERROR: Could not listen on port:'%s' and ip:'%s'. code:'%s'.." % [port, ip, err])
 		if err == ERR_CANT_CREATE:
-			Game.print_alert("Peer.gd ALERT: please make sure there is not already a server running on port:'%s'!" % port)
+			Game.print_alert("Peer.gd ALERT: Please make sure there is not already a server running on port:'%s'!" % port)
 		return err
 		
 	server.connect("client_connected", self, "_server_client_connected")
@@ -115,7 +115,7 @@ func connect_to_peer(_ip: String, _port: int):
 	var err = peer.connect_to_url(addr)
 	
 	if err != OK:
-		Game.print_alert("Peer.gd ALERT: could not connect to peer with address:'%s'. code:'%s' " % ["ws://%s:%s" % [_ip, _port], err])
+		Game.print_alert("Peer.gd ALERT: Could not connect to peer with address:'%s'. code:'%s' " % ["ws://%s:%s" % [_ip, _port], err])
 		
 		peers[_ip].erase(_port)
 		if [_ip].size() == 0:
@@ -133,7 +133,7 @@ func connect_to_peer(_ip: String, _port: int):
 	if peer.get_connection_status() == peer.CONNECTION_CONNECTED:
 		return peer
 	else:
-		Game.print_alert("Peer.gd ALERT: could not connect to peer with address:'%s': connection timeout.." % "ws://%s:%s" % [_ip, _port])
+		Game.print_alert("Peer.gd ALERT: Could not connect to peer with address:'%s': connection timeout.." % "ws://%s:%s" % [_ip, _port])
 		
 		peers[_ip].erase(_port)
 		if [_ip].size() == 0:
@@ -151,14 +151,14 @@ func send_packet(_ip: String, _port: int, header, content = null) -> int:
 			peer = peer.get_peer(1)
 	
 		if !peer.is_connected_to_host():
-			Game.print_alert("Peer.gd ALERT: peer with address:'%s' disconnected, reconnecting.." % "ws://%s:%s" % [_ip, _port])
+			Game.print_alert("Peer.gd ALERT: Peer with address:'%s' disconnected, reconnecting.." % "ws://%s:%s" % [_ip, _port])
 			
 			peer = yield(connect_to_peer(_ip, _port), "completed")
 	else:
 		peer = yield(connect_to_peer(_ip, _port), "completed")
 		
 		if peer is int:
-			Game.print_alert("Peer.gd ALERT: could not send packet, could not connect to peer. code:'%s'" % peer)
+			Game.print_alert("Peer.gd ALERT: Could not send packet, could not connect to peer. code:'%s'" % peer)
 			return peer
 	
 	var packet = {
@@ -175,7 +175,7 @@ func send_packet(_ip: String, _port: int, header, content = null) -> int:
 	
 	var err = peer.put_var(packet)
 	if err != OK:
-		Game.print_error("Peer.gd ERROR: could not send packet with content:'%s'! code:'%s'" % [packet, err])
+		Game.print_error("Peer.gd ERROR: Could not send packet with content:'%s'! code:'%s'" % [packet, err])
 		return err
 		
 	return OK
@@ -224,7 +224,7 @@ func retrieve_server_info(_ip: String, _port: int):
 		err = yield(err, "completed")
 	
 	if err != OK:
-		Game.print_alert("Peer.gd ALERT: could not request info. code:%s" % err)
+		Game.print_alert("Peer.gd ALERT: Could not request info. code:%s" % err)
 		
 		return null
 	

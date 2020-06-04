@@ -116,10 +116,10 @@ func load_map(path: String = "res://modes/menu/Mode.gd", options: Dictionary = {
 	yield(get_tree(), "idle_frame")
 
 	if !ResourceLoader.exists(path, "GDScript"):
-		print_alert("Game.gd ALERT: file: '%s' doesnt exist, loading 'res://modes/noclip.gd'.." % path)
+		print_alert("Game.gd ALERT: File: '%s' doesnt exist, loading 'res://modes/noclip.gd'.." % path)
 		path = "res://modes/noclip/Mode.gd"
 	if !ResourceLoader.exists(path, "GDScript"):
-		print_error("Game.gd ERROR: could not load map, res://modes/noclip.gd does not exist!")
+		print_error("Game.gd ERROR: Could not load map, res://modes/noclip.gd does not exist!")
 		return ERR_FILE_NOT_FOUND
 		
 	var script: GDScript = load(path)
@@ -151,20 +151,20 @@ func start_game(path: String, options: Dictionary) -> int:
 	
 #	var err = peer.listen()
 #	if err != OK:
-#		print_error("Game.gd ERROR: could not start game: could not start a ping server! code:'%s'" % err)
+#		print_error("Game.gd ERROR: Could not start game: could not start a ping server! code:'%s'" % err)
 #		return err
 	
 	var err = server.start_server()
 	if err != OK:
-		print_error("Game.gd ERROR: could not start game: could not start a rpc server! code:'%s'" % err)
+		print_error("Game.gd ERROR: Could not start game: could not start a rpc server! code:'%s'" % err)
 		if err == ERR_CANT_CREATE:
-			print_alert("Game.gd ALERT: please make sure there is not already a server running on port:'%s'!" % server.port)
+			print_alert("Game.gd ALERT: Please make sure there is not already a server running on port:'%s'!" % server.port)
 		return err
 
 	err = yield(load_map(path, options),"completed")
 	
 	if err != OK:
-		print_error("Game.gd ERROR: could not load mode with path:'%s' and options:'%s'! code:'%s'"% [path, options, err])
+		print_error("Game.gd ERROR: Could not load mode with path:'%s' and options:'%s'! code:'%s'"% [path, options, err])
 		server.stop_server()
 		return err
 		
@@ -183,7 +183,7 @@ func join_game(ip: String, port: int) -> int:
 	
 	var info = yield(peer.retrieve_server_info(ip, port), "completed")
 	if info == null:
-		print_error("Game.gd ERROR: could not retrieve server info: connection timed out.")
+		print_error("Game.gd ERROR: Could not retrieve server info: connection timed out.")
 		return ERR_TIMEOUT
 		
 	
@@ -191,7 +191,7 @@ func join_game(ip: String, port: int) -> int:
 	if missing_and_disabled_addons["NEED_DOWNLOADING"].size() > 0:
 		missing_and_disabled_addons["NEED_DOWNLOADING"] = yield(addons.download_addons(ip, port, missing_and_disabled_addons["NEED_DOWNLOADING"]), "completed")
 		if missing_and_disabled_addons["NEED_DOWNLOADING"] == null:
-			print_error("Game.gd ERROR: could not join game, could not download addons from server..")
+			print_error("Game.gd ERROR: Could not join game, could not download addons from server..")
 			return FAILED
 			
 	addons.load_addons(missing_and_disabled_addons["NEED_ENABLING"])
@@ -199,20 +199,20 @@ func join_game(ip: String, port: int) -> int:
 	
 	var err = yield(load_map(info["MODE"], info["OPTIONS"]), "completed")
 	if err != OK:
-		print_error("Game.gd ERROR: could not load map with path:'%s' and _mode:'%s'! code:'%s'" % [info["MAP"], info["MODE"], err])
+		print_error("Game.gd ERROR: Could not load map with path:'%s' and _mode:'%s'! code:'%s'" % [info["MAP"], info["MODE"], err])
 		client.stop_client()
 		return err
 		
 		
 	print_text("Game.gd: Starting rpc client..")
 	if info["SERVER_HASH"] == (OS.get_unique_id() + str(OS.get_process_id())).sha256_text():
-		print_alert("Game.gd ALERT: you are the host of this game, not starting a rpc client..")
+		print_alert("Game.gd ALERT: You are the host of this game, not starting a rpc client..")
 	else:
 		Game.client.mode = info["SERVER_MODE"]
 		
 		err = yield(client.start_client(ip, info["PORT"]), "completed")
 		if err != OK:
-			print_error("Game.gd ERROR: could not start rpc client! code:'%s'" % err)
+			print_error("Game.gd ERROR: Could not start rpc client! code:'%s'" % err)
 			return err
 	
 	
@@ -246,9 +246,9 @@ func eval(input: String):
 	var err = script.reload()
 	if err != OK:
 		if err == ERR_PARSE_ERROR:
-			print_error("Game.gd ERROR: could not execute command, syntax error!")
+			print_error("Game.gd ERROR: Could not execute command, syntax error!")
 		else:
-			print_error("Game.gd ERROR: could not reload script! code: %s" % err)
+			print_error("Game.gd ERROR: Could not reload script! code: %s" % err)
 
 	var obj = Reference.new()
 	obj.set_script(script)
@@ -284,7 +284,7 @@ func screenshot(save_path: String = ""):
 	
 	var err = image.save_png(save_path)
 	if err != OK:
-		print_error("Game.gd ERROR: could not save screenshot at path:'%s'. code:'%s'" % [save_path, err])
+		print_error("Game.gd ERROR: Could not save screenshot at path:'%s'. code:'%s'" % [save_path, err])
 	else:
 		print_text("Game.gd: Saved screenshot at path:'%s'.." % save_path)
 	

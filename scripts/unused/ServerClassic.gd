@@ -41,7 +41,7 @@ func start_server() -> int:
 	var err = peer.create_server(port, max_players)
 	if err != OK:
 		
-		Game.print_error("Server.gd ERROR: could not create server on port:'%s'. code:'%s'" % [port, err])
+		Game.print_error("Server.gd ERROR: Could not create server on port:'%s'. code:'%s'" % [port, err])
 		peer = null
 		
 		return err
@@ -63,7 +63,7 @@ func start_server() -> int:
 func stop_server():
 	if peer != null:
 		peer.close_connection()
-		Game.print_text("Server.gd: closed connection..")
+		Game.print_text("Server.gd: Closed connection..")
 		
 func _player_connected(_id):
 	Game.print_color("Player with id:'%s' joined the game!" % _id, Color.green)
