@@ -17,7 +17,7 @@ var auto_scale = true
 
 var prev_mouse_mode 
 
-onready var windows = $WindowContainer
+onready var windows: WindowContainer = $WindowContainer
 onready var console: GameConsole = $Console
 
 func _ready():
