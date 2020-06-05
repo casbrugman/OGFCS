@@ -113,5 +113,4 @@ func _resized():
 		rect_position.y = 0
 	
 func center():
-	yield(get_tree(), "idle_frame")
 	rect_position = get_parent().rect_size / 2 - rect_size /2

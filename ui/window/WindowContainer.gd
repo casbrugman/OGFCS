@@ -13,7 +13,9 @@ func create_window(prefab: PackedScene):
 	var window = window_prefab.instance()
 	window.init(prefab.instance())
 	add_child(window)
-	yield(window.center(), "completed")
+	
+	yield(get_tree(), "idle_frame")
+	window.center()
 	
 	for child in get_children():
 		if child != window:
@@ -26,9 +28,11 @@ func create_window(prefab: PackedScene):
 func alert(message: String, info: bool = false):
 	var window = yield(create_window(window_alert), "completed")
 	window.content.set_alert(message, info)
+	window.center()
 	return window
 	
 func confirm(message: String):
 	var window = yield(create_window(window_confirm), "completed")
 	window.content.set_confirm(message)
+	window.center()
 	return window

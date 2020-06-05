@@ -31,7 +31,7 @@ func _ready():
 	Game.connect("started_game", self , "_started_game")
 	get_tree().connect("screen_resized", self, "_screen_resized")
 	
-	windows.create_window(prefabs.menu_main)
+	yield(windows.create_window(prefabs.menu_main), "completed").rect_position = Vector2(150, 80)
 	
 	
 func _input(event):
