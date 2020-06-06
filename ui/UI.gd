@@ -5,7 +5,7 @@ class_name GameUI
 var prefabs = {
 	"menu_main": preload("res://ui/menus/main/Main.tscn"),
 	"menu_join": preload("res://ui/menus/join/Join.tscn"),
-	"menu_start": preload("res://ui/menus/Start.tscn"),
+	"menu_start": preload("res://ui/menus/start/Start.tscn"),
 	"menu_addons": preload("res://ui/menus/addons/Addon.tscn"),
 	"console": preload("res://ui/menus/console/Console.tscn"),
 	"menu_explore": preload("res://ui/menus/explore/Explore.tscn"),
