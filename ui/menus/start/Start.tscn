@@ -288,5 +288,4 @@ __meta__ = {
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/OptionButton" to="VBoxContainer/VBoxContainer/OptionButton" method="_on_OptionButton_pressed"]
 [connection signal="toggled" from="VBoxContainer/GridContainer/CheckBox" to="." method="_on_CheckBox_toggled"]
 [connection signal="button_up" from="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/CheckBox" to="." method="_on_CheckBox_button_up"]
-[connection signal="toggled" from="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/CheckBox" to="." method="_on_CheckBox_toggled2"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_pressed"]
