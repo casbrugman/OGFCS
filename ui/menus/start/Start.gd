@@ -70,13 +70,13 @@ func _on_Mode_setting_changed():
 
 func _on_CheckBox_toggled(button_pressed):
 	if button_pressed:
-		$VBoxContainer/PanelContainer/MarginContainer/VBoxContainer.show()
+		$VBoxContainer/PanelContainer/MarginContainer.show()
 		
 		yield(get_tree(), "idle_frame")
 		
 		rect_min_size = rect_size
 	else:
-		$VBoxContainer/PanelContainer/MarginContainer/VBoxContainer.hide()
+		$VBoxContainer/PanelContainer/MarginContainer.hide()
 		$VBoxContainer.rect_size = $VBoxContainer.rect_min_size
 		rect_min_size = Vector2()
 		rect_size = rect_min_size
