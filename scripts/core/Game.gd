@@ -30,7 +30,7 @@ var mode: GameMode
 var main: Node
 var world: Node
 var universe: Node
-var ui:GameUI
+var ui: GameUI
 var window
 var config:GameConfig
 var addons: GameAddons
@@ -208,7 +208,7 @@ func join_game(ip: String, port: int) -> int:
 	if info["SERVER_HASH"] == (OS.get_unique_id() + str(OS.get_process_id())).sha256_text():
 		print_alert("Game.gd ALERT: You are the host of this game, not starting a rpc client..")
 	else:
-		Game.client.mode = info["SERVER_MODE"]
+		client.mode = info["SERVER_MODE"]
 		
 		err = yield(client.start_client(ip, info["PORT"]), "completed")
 		if err != OK:
