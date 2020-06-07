@@ -80,7 +80,7 @@ func start():
 		server.ip = config.get_value("start", "host_ip")
 		server.max_players = config.get_value("start", "host_max_players")
 		server.message = config.get_value("start", "host_message")
-		downloader.host_adddons = config.get_value("start", "host_addons")
+		downloader.host_enabled_addons = config.get_value("start", "host_addons")
 		
 		var err = yield(start_game(config.get_value("start", "mode"), config.get_value("start", "options")), "completed")
 		if err != OK:

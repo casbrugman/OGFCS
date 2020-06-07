@@ -30,7 +30,7 @@ func _on_Button_pressed():
 	
 	Game.peer.port = ping_port
 	Game.peer.ip = ip
-	Game.downloader.host_adddons = host_addons
+	Game.downloader.host_enabled_addons = host_addons
 	Game.server.max_players = max_players
 	Game.server.port = rpc_port
 	Game.server.ip = ip
