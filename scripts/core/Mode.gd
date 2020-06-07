@@ -3,11 +3,11 @@ extends Node
 class_name GameMode
 
 var menu_path = "res://ui/menus/default_mode/DefaultMode.tscn"
-var menu setget , _get_menu
+var menu setget , get_menu
 
 var map: Node
 	
-func _get_menu():
+func get_menu():
 	var new_menu = load(menu_path).instance()
 	new_menu.mode = self
 	return new_menu
