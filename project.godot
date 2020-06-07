@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameClientClassic",
 "language": "GDScript",
-"path": "res://scripts/unused/ClientClassic.gd"
+"path": "res://scripts/core/unused/ClientClassic.gd"
 }, {
 "base": "Node",
 "class": "GameConfig",
@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameDownloader",
 "language": "GDScript",
-"path": "res://scripts/core/Downloader.gd"
+"path": "res://scripts/core/downloader/Downloader.gd"
 }, {
 "base": "Node",
 "class": "GameMode",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GamePeerClassic",
 "language": "GDScript",
-"path": "res://scripts/unused/PeerClassic.gd"
+"path": "res://scripts/core/unused/PeerClassic.gd"
 }, {
 "base": "Node",
 "class": "GameServer",
@@ -67,7 +67,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameServerClassic",
 "language": "GDScript",
-"path": "res://scripts/unused/ServerClassic.gd"
+"path": "res://scripts/core/unused/ServerClassic.gd"
 }, {
 "base": "Control",
 "class": "GameUI",
